@@ -122,7 +122,7 @@ int tesShopManager::canBuy(std::string sign,const std::string& player){
             return TES_SHOP_BUY_ERROR_MONEY;
         }
 
-        BlockInstance chest = Level::getBlockInstance(shopInstance->getChestBlockPos(), 0); //here too!!!!!!
+        BlockInstance chest = Level::getBlockInstance(shopInstance->getChestBlockPos(), 0); 
         if (!chest.hasContainer()){
             return TES_SHOP_BUY_ERROR_SHOP;
         }
@@ -152,10 +152,31 @@ bool tesShopManager::buy(const std::string& sign,const std::string& player){
     if (canBuy(sign,player) == TES_SHOP_BUY_ABLE){
         auto chest = Level::getBlockInstance(shop[sign].getChestBlockPos(),0);
         auto container = chest.getContainer();
-        for (auto& item:container->getAllSlots()){
-            
-        }
+        int amount = shop[sign].getAmount();
+        int i = 0;
+        for (auto *item:container->getAllSlots()){ //give item to player and remove item from chest
+            if (amount == 0){
+                break;
+            }
+            if (item == nullptr){
+                i++;
+                continue;
+            }
 
+            if (amount >= item->getCount()){
+                Level::getPlayer(player).giveItem(item);
+                amount = amount - item->getCount();
+                container->removeItem_s(i,item.getCount());                
+            } else { //amount < item->getCount() 
+                container->removeItem_s(i,amount);
+                Level::getPlayer(player).giveItem(
+                    ItemStack(item.getTypeName(),amount);
+                );
+            }
+            i++;
+        }
+        tesMainClass::getInstance()->getPlayerData(player)->removeMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
+        tesMainClass::getInstance()->getPlayerData(getShop(sign)->getOwner())->addMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
     }else{
         return false;
     }
