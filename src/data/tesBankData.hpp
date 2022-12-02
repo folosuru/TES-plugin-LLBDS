@@ -50,7 +50,9 @@ public:
 
 
     unsigned long long convertToRealBalance(unsigned long long value) const;
+    unsigned long long convertToRealBalance(double value) const;
     unsigned long long convertFromRealBalance(unsigned long long value) const;
+
 
     /**
      * function of RealBalance() are using law value of money.

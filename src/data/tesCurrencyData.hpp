@@ -11,4 +11,5 @@ private:
     std::string currency_name;
     int country_id;
     tesBankData Bank;
+
 };

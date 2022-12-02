@@ -1,4 +1,4 @@
-#include "tesBankData.h"
+#include "tesBankData.hpp"
 #include <string>
 #include <utility>
 
@@ -10,6 +10,9 @@ unsigned long long tesBankData::convertToRealBalance(unsigned long long value) c
 }
 unsigned long long tesBankData::convertFromRealBalance(unsigned long long value) const{
     return value/DECIMAL_DIGIT;
+}
+unsigned long long tesBankData::convertToRealBalance(double value) const {
+    return (unsigned long long)(value * DECIMAL_DIGIT);
 }
 
 /* 
@@ -150,3 +153,5 @@ void tesBankData::removeRealBalance(const std::string& name, unsigned long long 
 const string &tesBankData::getCurrencyName() const {
     return currencyName;
 }
+
+

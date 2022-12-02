@@ -17,8 +17,8 @@
 #include <llapi/FormUI.h>
 
 
-#include "../tesMainClass.h"
-#include "tesShopInstance.h"
+#include "../tesMainClass.hpp"
+#include "tesShopInstance.hpp"
 
 class CustomForm;
 
@@ -46,7 +46,7 @@ public:
      */
     void blockPlacedByPlayerEvent(const Event::BlockPlacedByPlayerEvent& event);
 
-    int canBuy(std::string sign,const std::string& player);
+    int canBuy(const std::string& sign,const std::string& player);
     bool buy(const std::string& sign,const std::string& player);
 
     void registerShop(tesShopInstance& shop);

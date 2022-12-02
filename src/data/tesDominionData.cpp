@@ -1,5 +1,5 @@
-#include "tesDominionData.h"
-#include "tesLandData.h"
+#include "tesDominionData.hpp"
+#include "tesLandData.hpp"
 #include <string>
 #include <utility>
 

@@ -21,7 +21,7 @@
 #include <llapi/GlobalServiceAPI.h>
 #include <llapi/FormUI.h>
 
-#include "tesMainClass.h"
+#include "tesMainClass.hpp"
 // We recommend using the global logger.
 extern Logger logger;
 std::string latest_player_xuid;
@@ -102,7 +102,7 @@ void PluginInit()
         tesMainClass main = tesMainClass::getInstance();
         auto dominion = main.getDominion(block.getPosition().x,block.getPosition().z);
         if (dominion){
-            if (dominion.value().getCountryID() == main.getPlayerData(event.mPlayer->getName()).getCountry()){
+            if (dominion.value().getCountryID() == main.getPlayerData(event.mPlayer->getName())->getCountry()){
                 //land....
             }else{
                 return false;

@@ -2,30 +2,23 @@
 // Created by folosuru on 2022/11/01.
 //
 
-#include "tesMainClass.h"
-#include "data/tesDominionData.h"
+#include "tesMainClass.hpp"
+#include "data/tesDominionData.hpp"
 
 tesMainClass::tesMainClass() {
 
 //    player_data[id] = tesPlayerData(hoge);
 }
 
-tesMainClass tesMainClass::getInstance() { //おネットのシングルトンからコピペしてきたから合ってるかは知らない
+tesMainClass& tesMainClass::getInstance() { //おネットのシングルトンからコピペしてきたから合ってるかは知らない
     static tesMainClass instance;
     return instance;
 }
 
-bool tesMainClass::existsPlayerData(const std::string& name) {
-    if (player_data.find(name) == player_data.end()) {
-        return false;
-    }
-    return true;
-}
 
-
-tesPlayerData tesMainClass::getPlayerData(const std::string& name) {
+std::optional<tesPlayerData> tesMainClass::getPlayerData(const std::string& name) {
     if (player_data.find(name) == player_data.end()) {
-        player_data[name] = tesPlayerData();
+        return std::nullopt;
     }
     return player_data[name];
 }
@@ -41,8 +34,29 @@ std::optional<tesDominionData> tesMainClass::getDominion(int x, int z) {
 }
 
 std::optional<tesCountryData> tesMainClass::getCountry(int id) {
-    if (country_data.find(id) == country_data.end()){
+    if (country_data.size() > id) {
+        return country_data[id];
+    }
+    return std::nullopt;
+}
+
+std::optional<std::string> tesMainClass::getCurrency(int id) {
+    if (currency_id_to_name.find(id) == currency_id_to_name.end()){
         return std::nullopt;
     }
-    return country_data[id];
+    return currency_id_to_name[id];
+}
+
+std::optional<int> tesMainClass::getCurrencyID(const std::string& name) {
+    if (currency_name_to_id.find(name) == currency_name_to_id.end()){
+        return std::nullopt;
+    }
+    return currency_name_to_id[name];
+}
+
+std::optional<tesBankData> tesMainClass::getBank(int id){
+    if (bank_data.size() > id) {
+        return bank_data[id];
+    }
+    return std::nullopt;
 }

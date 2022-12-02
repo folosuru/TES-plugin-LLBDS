@@ -2,10 +2,12 @@
 // Created by folosuru on 2022/11/07.
 //
 
-#include "tesShopManager.h"
-#include "tesShopInstance.h"
+#include "tesShopManager.hpp"
+#include "tesShopInstance.hpp"
 #include "llapi/mc/ItemStack.hpp"
+#include "../data/tesCountryData.hpp"
 #include <llapi/mc/Level.hpp>
+#include <llapi/mc/Player.hpp>
 #include <string>
 #include <utility>
 
@@ -70,8 +72,8 @@ void tesShopManager::blockClickByAxeEvent(const Event::PlayerStartDestroyBlockEv
             std::vector<int> currency_list = country.value().aspect_currency_list;
             std::string currency_name_list_string = "この国での法定通貨は: ";
             for (auto id: currency_list) {
-                currency_name_list.push_back(tesMainClass::getInstance().getCurrency(id).getCurrencyName());
-                currency_name_list_string += tesMainClass::getInstance().getCurrency(id).getCurrencyName();
+                currency_name_list.push_back(tesMainClass::getInstance().getCurrency(id).value());
+                currency_name_list_string += tesMainClass::getInstance().getCurrency(id).value();
                 currency_name_list_string += ',';
             }
             form.addLabel("label1", currency_name_list_string);
@@ -102,7 +104,7 @@ void tesShopManager::blockClickByAxeEvent(const Event::PlayerStartDestroyBlockEv
 
                             new_shop.setPrice(result["price"]->getInt())
                                     .setPrice(
-                                            tesMainClass::getInstance().getCurrencyID(result["currency"]->getString()))
+                                            tesMainClass::getInstance().getCurrencyID(result["currency"]->getString()).value())
                                     .setPrice(result["amount"]->getInt())
                                     .setActivate(true);
                             tesShopManager::getInstance().registerShop(new_shop);
@@ -115,10 +117,10 @@ void tesShopManager::registerShop(tesShopInstance& shop_){
     shop[shop_.getSignPos()] = shop_;
 }
 
-int tesShopManager::canBuy(std::string sign,const std::string& player){
-    std::optional<tesShopInstance> shopInstance = getShop(std::move(sign));
+int tesShopManager::canBuy(const std::string& sign,const std::string& player){
+    std::optional<tesShopInstance> shopInstance = getShop(sign);
     if (shopInstance){
-        if (!tesMainClass::getInstance().getPlayerData(player).hasMoney(shopInstance.value().getCurrency(), shopInstance.value().getPrice())){
+        if (!tesMainClass::getInstance().getPlayerData(player).value().hasMoney(shopInstance.value().getCurrency(), shopInstance.value().getPrice())){
             return TES_SHOP_BUY_ERROR_MONEY;
         }
 
@@ -154,7 +156,7 @@ bool tesShopManager::buy(const std::string& sign,const std::string& player){
         auto container = chest.getContainer();
         int amount = shop[sign].getAmount();
         int i = 0;
-        for (auto *item:container->getAllSlots()){ //give item to player and remove item from chest
+        for (auto* item:container->getAllSlots()){ //give item to player and remove item from chest
             if (amount == 0){
                 break;
             }
@@ -164,19 +166,19 @@ bool tesShopManager::buy(const std::string& sign,const std::string& player){
             }
 
             if (amount >= item->getCount()){
-                Level::getPlayer(player).giveItem(item);
                 amount = amount - item->getCount();
-                container->removeItem_s(i,item.getCount());                
+                container->removeItem_s(i,item->getCount());
+                Global<Level>->getPlayer(player)->giveItem(item->clone_s());
             } else { //amount < item->getCount() 
                 container->removeItem_s(i,amount);
-                Level::getPlayer(player).giveItem(
-                    ItemStack(item.getTypeName(),amount);
+                Global<Level>->getPlayer(player)->giveItem(
+                    ItemStack::create(item->getTypeName(),amount)
                 );
             }
             i++;
         }
-        tesMainClass::getInstance()->getPlayerData(player)->removeMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
-        tesMainClass::getInstance()->getPlayerData(getShop(sign)->getOwner())->addMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
+        tesMainClass::getInstance().getPlayerData(player).value().removeMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
+        tesMainClass::getInstance().getPlayerData(getShop(sign)->getOwner()).value().addMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
     }else{
         return false;
     }
