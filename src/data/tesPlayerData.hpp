@@ -4,6 +4,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#include <Nlohmann/json.hpp>
 class tesPlayerData {
 public:
 
@@ -40,9 +41,13 @@ public:
      */
     bool hasMoney(int currency, int value);
 
+    nlohmann::json getAllData();
+
+
+
 private:
     int country;
-    std::unordered_map<int,int> money;
+    std::vector<unsigned int> money;
 };
 
 

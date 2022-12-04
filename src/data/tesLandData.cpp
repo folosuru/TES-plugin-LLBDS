@@ -1,6 +1,7 @@
 #include "tesLandData.hpp"
 #include <algorithm>
 #include <utility>
+#include <array>
 
 tesLandData::tesLandData(int x1,int z1,int x2,int z2,std::string owner_){
     if (x1 > x2){
@@ -30,4 +31,16 @@ bool tesLandData::canUse(const std::string& player){
     }else {
         return false;
     }
+}
+
+std::array<int,4> tesLandData::getAllPos() {
+    return std::array<int,4> {min_x,min_z,max_x,max_z}
+}
+
+std::vector<std::string> tesLandData::getAllSharePlayer() {
+    return share_player;
+}
+
+std::string tesLandData::getOwner() {
+    return owner;
 }

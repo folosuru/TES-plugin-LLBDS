@@ -17,7 +17,7 @@ void tesPlayerData::setCountry(int country_id) {
     country = country_id;
 }
 int tesPlayerData::getMoney(int currency) {
-    if (money.find(currency) != money.end()){
+    if (money.size() > currency){
         return money[currency];
     } else {
         money[currency] = 0;
@@ -52,4 +52,11 @@ void tesPlayerData::removeMoney(int currency, int value) {
 
 void tesPlayerData::setMoney(int currency, int value) {
     money[currency] = value;
+}
+
+nlohmann::json tesPlayerData::getAllData() {
+    nlohmann::json data;
+    data["country"] = getCountry();
+    data["money"] = money;
+    return data;
 }

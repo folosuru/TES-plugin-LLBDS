@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#include <Nlohmann/json.hpp>
+
 
 /*
  * BankData
@@ -72,13 +74,15 @@ public:
     void setCountryBalance(unsigned long long value);
    const std::string &getCurrencyName() const;
 
+   nlohmann::json getAllData();
+
 
 private:
     int InterestRate; //  *(1/10000) した物を利子として
     int Interest_tick;
     unsigned long long county_Balance; // 引き出しのときに減る、要は印刷した紙幣の枠
     std::string country;
-    std::unordered_map<std::string ,unsigned long long> money; // xDECIMAL_DIGIT to Balance
+    std::unordered_map<std::string ,unsigned long long> money; // *(1/DECIMAL_DIGIT) to Balance
 
     std::string currencyName; //name of currency
 
