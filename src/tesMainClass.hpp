@@ -21,6 +21,7 @@ public:
     std::optional<int> getCurrencyID(const std::string& name);
     std::optional<tesDominionData> getDominion(int x,int z);
     std::optional<tesBankData> getBank(int id);
+    void saveAllPlayerData();
 
 
 private:

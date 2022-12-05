@@ -4,6 +4,7 @@
 
 #include "tesMainClass.hpp"
 #include "data/tesDominionData.hpp"
+#include <fstream>
 
 tesMainClass::tesMainClass() {
 
@@ -19,8 +20,9 @@ tesMainClass& tesMainClass::getInstance() { //おネットのシングルトン�
 std::optional<tesPlayerData> tesMainClass::getPlayerData(const std::string& name) {
     if (player_data.find(name) == player_data.end()) {
         return std::nullopt;
+    }else {
+        return player_data[name];
     }
-    return player_data[name];
 }
 
 std::optional<tesDominionData> tesMainClass::getDominion(int x, int z) {
@@ -59,4 +61,11 @@ std::optional<tesBankData> tesMainClass::getBank(int id){
         return bank_data[id];
     }
     return std::nullopt;
+}
+
+void tesMainClass::saveAllPlayerData() {
+    for (auto& player: player_data){
+        std::ofstream file("plugins/TES-main/player/"+player.first+".json");
+        file << std::setw(4)  << player.second.getAllData() << std::endl;
+    }
 }

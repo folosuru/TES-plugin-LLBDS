@@ -34,7 +34,7 @@ bool tesLandData::canUse(const std::string& player){
 }
 
 std::array<int,4> tesLandData::getAllPos() {
-    return std::array<int,4> {min_x,min_z,max_x,max_z}
+    return std::array<int,4> {min_x,min_z,max_x,max_z};
 }
 
 std::vector<std::string> tesLandData::getAllSharePlayer() {

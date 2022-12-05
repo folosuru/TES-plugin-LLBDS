@@ -154,7 +154,7 @@ const string &tesBankData::getCurrencyName() const {
     return currencyName;
 }
 
-nlohmann::json tesBankData::getAllData() {
+nlohmann::json tesBankData::getAllData() const {
     nlohmann::json data;
     data["interest_rate"] = getInterestRate();
     data["country_balance"] = getCountryBalance();

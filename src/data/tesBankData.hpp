@@ -74,7 +74,7 @@ public:
     void setCountryBalance(unsigned long long value);
    const std::string &getCurrencyName() const;
 
-   nlohmann::json getAllData();
+   nlohmann::json getAllData() const;
 
 
 private:

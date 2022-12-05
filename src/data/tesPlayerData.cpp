@@ -4,6 +4,7 @@
 
 #include "tesPlayerData.hpp"
 #include <string>
+#include <utility>
 using namespace std;
 
 /*tesPlayerData::tesPlayerData(std::string json) {
@@ -58,5 +59,10 @@ nlohmann::json tesPlayerData::getAllData() {
     nlohmann::json data;
     data["country"] = getCountry();
     data["money"] = money;
+
     return data;
+}
+
+tesPlayerData::tesPlayerData(std::string name_) {
+    name=std::move(name_);
 }

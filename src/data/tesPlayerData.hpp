@@ -44,7 +44,6 @@ public:
     nlohmann::json getAllData();
 
 
-
 private:
     int country;
     std::vector<unsigned int> money;
