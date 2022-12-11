@@ -63,6 +63,3 @@ nlohmann::json tesPlayerData::getAllData() {
     return data;
 }
 
-tesPlayerData::tesPlayerData(std::string name_) {
-    name=std::move(name_);
-}
