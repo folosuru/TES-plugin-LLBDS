@@ -38,13 +38,11 @@ void PluginInit()
     logger.info("Hello, world!");
 
     Event::PlayerJoinEvent::subscribe([](const Event::PlayerJoinEvent& event) {
-        auto* item = ItemStack::create("minecraft:diamond_hoe",1);
-        item->setCustomName("Tool Stick");
-        /*std::vector<std::string> lore;
-        lore[0] = "Click Something to...?";
-        item->setLore(lore);*/
-        event.mPlayer->giveItem(item);
-        delete item;
+        auto main = tesMainClass::getInstance();
+        if (main.getPlayerData(event.mPlayer->getName())){
+            return true;
+        }
+        event.mPlayer->teleport(Vec3(0,128,0),0);
         return true;
     });
 
