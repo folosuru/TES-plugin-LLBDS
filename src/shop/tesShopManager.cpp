@@ -150,34 +150,32 @@ std::optional<tesShopInstance> tesShopManager::getShop(const std::string& pos){
     }
 }
 
-bool tesShopManager::buy(const std::string& sign,const std::string& player){
-    if (canBuy(sign,player) == TES_SHOP_BUY_ABLE){
+bool tesShopManager::buy(const std::string& sign,const std::string& player_name){
+    if (canBuy(sign,player_name) == TES_SHOP_BUY_ABLE){
         auto chest = Level::getBlockInstance(shop[sign].getChestBlockPos(),0);
         auto container = chest.getContainer();
         int amount = shop[sign].getAmount();
-        int i = 0;
-        for (auto* item:container->getAllSlots()){ //give item to player and remove item from chest
-            if (amount == 0){
-                break;
-            }
-            if (item == nullptr){
-                i++;
+        Player* player = Global<Level>->getPlayer(player_name);
+        for (int i=0;i < container->getSize() && amount > 0;i++){ //give item_ to player and remove item_ from chest
+            ItemStack* item_ = container->getSlot(i);
+            if (item_ == nullptr){
                 continue;
             }
-
-            if (amount >= item->getCount()){
-                amount = amount - item->getCount();
-                container->removeItem_s(i,item->getCount());
-                Global<Level>->getPlayer(player)->giveItem(item->clone_s());
-            } else { //amount < item->getCount() 
-                container->removeItem_s(i,amount);
-                Global<Level>->getPlayer(player)->giveItem(
-                    ItemStack::create(item->getTypeName(),amount)
+            if (amount >= item_->getCount()){
+                int count = item_->getCount();
+                amount = amount - count;
+                player->giveItem(item_->clone_s());
+                container->removeItem_s(i, count);
+            } else { //amount < item_->getCount()
+                player->giveItem(
+                        ItemStack::create(item_->getTypeName(), amount)
                 );
+                container->removeItem_s(i,amount);
+                amount = 0;
             }
-            i++;
         }
-        tesMainClass::getInstance().getPlayerData(player).value().removeMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
+
+        tesMainClass::getInstance().getPlayerData(player_name).value().removeMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
         tesMainClass::getInstance().getPlayerData(getShop(sign)->getOwner()).value().addMoney(getShop(sign)->getCurrency(),getShop(sign)->getPrice());
     }else{
         return false;
