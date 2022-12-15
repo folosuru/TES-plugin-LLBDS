@@ -20,6 +20,7 @@
 #include <llapi/EventAPI.h>
 #include <llapi/GlobalServiceAPI.h>
 #include <llapi/FormUI.h>
+#include <llapi/DynamicCommandAPI.h>
 
 #include "tesMainClass.hpp"
 // We recommend using the global logger.
@@ -95,20 +96,61 @@ void PluginInit()
         if (event.mPlayer->isOP()){ //please fix here; this line is easy to hacking by OP hack 
             return true;
         }
+
         BlockInstance block = event.mBlockInstance;
         if (block.getDimensionId() ==  0/* enter id of the end */){
             return false;
         }
+
+        //----land and dominion----//
         tesMainClass main = tesMainClass::getInstance();
         auto dominion = main.getDominion(block.getPosition().x,block.getPosition().z);
-        if (dominion){
-            if (dominion.value().getCountryID() == main.getPlayerData(event.mPlayer->getName())->getCountry()){
-                //land....
-            }else{
-                return false;
-            }
-        }else{
+        if (!dominion){
+            return true;    //そもそも国の領土じゃないので管理する必要は無
+        }
+        //----この下は国の領土----//
+        if (dominion.value().getCountryID() != main.getPlayerData(event.mPlayer->getName())->getCountry()) {
+            return false;    //部外者なので権限なし
+        }
+
+        int land_id = dominion.value().getLandId(block.getPosition().x, block.getPosition().z);
+
+        if (land_id == -1) {
+            return true;    //私有地でないのでままええわ（国によって設定できるようにすべき？どっちでもいいか）
+        }
+        if (dominion.value().getLand(land_id).canUse(event.mPlayer->getName())) {
+            return true;    //国の領土かつ、自分が持っている私有地
+        } else {
+            return false;    //国の領土かつ、自分の私有地でない
+        }
+    });
+
+    Event::BlockPlacedByPlayerEvent::subscribe([](const Event::BlockPlacedByPlayerEvent& event){
+        if (event.mPlayer->isOP()){ //please fix here; this line is easy to hacking by OP hack
+            return true;
+        }
+        BlockInstance block = event.mBlockInstance;
+        if (block.getDimensionId() ==  0/* enter id of the end */){
             return false;
+        }
+//----land and dominion----//
+        tesMainClass main = tesMainClass::getInstance();
+        auto dominion = main.getDominion(block.getPosition().x,block.getPosition().z);
+        if (!dominion){
+            return true;    //そもそも国の領土じゃないので管理する必要は無
+        }
+//----この下は国の領土----//
+        if (dominion.value().getCountryID() != main.getPlayerData(event.mPlayer->getName())->getCountry()) {
+            return false;    //部外者なので権限なし
+        }
+        int land_id = dominion.value().getLandId(block.getPosition().x, block.getPosition().z);
+        if (land_id == -1) {
+            return true;    //私有地でないのでままええわ（国によって設定できるようにすべき？どっちでもいいか）
+        }
+        if (dominion.value().getLand(land_id).canUse(event.mPlayer->getName())) {
+            return true;    //国の領土かつ、自分が持っている私有地
+        } else {
+            return false;    //国の領土かつ、自分の私有地でない
         }
     });
 }
