@@ -55,6 +55,13 @@ void tesPlayerData::setMoney(int currency, int value) {
     money[currency] = value;
 }
 
+void tesPlayerData::setLastPosition(Vec3& pos){
+    last_position[0] = ((int)pos.x);
+    last_position[1] = ((int)pos.y);
+    last_position[2] = ((int)pos.z);
+    return;
+}
+
 nlohmann::json tesPlayerData::getAllData() {
     nlohmann::json data;
     data["country"] = getCountry();
