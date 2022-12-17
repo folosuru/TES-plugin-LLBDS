@@ -41,12 +41,15 @@ public:
      */
     bool hasMoney(int currency, int value);
 
+    void setLastPosition(Vec3& pos);
+
     nlohmann::json getAllData();
 
 
 private:
     int country;
     std::vector<unsigned int> money;
+    std::array<int,3> last_position;
 };
 
 

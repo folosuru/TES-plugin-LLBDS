@@ -17,6 +17,9 @@
 #include <llapi/mc/BlockInstance.hpp>
 #include <llapi/mc/Container.hpp>
 
+#include <llapi/MC/CommandOrigin.hpp>
+#include <llapi/MC/CommandOutput.hpp>
+
 #include <llapi/EventAPI.h>
 #include <llapi/GlobalServiceAPI.h>
 #include <llapi/FormUI.h>
@@ -151,4 +154,32 @@ void PluginInit()
             return false;    //国の領土かつ、自分の私有地でない
         }
     });
+
+    DynamicCommand::setup(
+        "hub", // The command
+        "return to hub.", // The description
+        {}, // The enumeration
+        {}, // The parameters
+        {{},}, // The overloads
+        [](
+            DynamicCommand const& command,
+            CommandOrigin const& origin,
+            CommandOutput& output,
+            std::unordered_map<std::string, DynamicCommand::Result>& results
+        ) {
+            
+            if (CommandOrigin.getPlayer() == nullptr){
+                output.error("this command only for player");
+            }
+
+            auto main = tesMainClass::getInstance();
+            auto player = main.getPlayerData(CommandOrigin.getPlayer()->getName());
+            if (player){
+                player.value().setLastPosition(CommandOrigin.getPlayer()->getPosition());
+                CommandOrigin.getPlayer()->teleport(Vec3(0,128,0),0);
+            } else {
+                output.error("you not registered");
+            }
+        }// The callback function
+    );
 }
