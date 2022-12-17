@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_map>
 #include <Nlohmann/json.hpp>
+#include "llapi/mc/Vec3.hpp"
+
 class tesPlayerData {
 public:
 
