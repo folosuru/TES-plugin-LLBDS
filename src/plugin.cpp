@@ -168,15 +168,15 @@ void PluginInit()
             std::unordered_map<std::string, DynamicCommand::Result>& results
         ) {
             
-            if (CommandOrigin.getPlayer() == nullptr){
+            if (origin.getPlayer() == nullptr){
                 output.error("this command only for player");
             }
 
             auto main = tesMainClass::getInstance();
-            auto player = main.getPlayerData(CommandOrigin.getPlayer()->getName());
+            auto player = main.getPlayerData(origin.getPlayer()->getName());
             if (player){
-                player.value().setLastPosition(CommandOrigin.getPlayer()->getPosition());
-                CommandOrigin.getPlayer()->teleport(Vec3(0,128,0),0);
+                player.value().setLastPosition(origin.getPlayer()->getPosition());
+                origin.getPlayer()->teleport(Vec3(0,128,0),0);
             } else {
                 output.error("you not registered");
             }
