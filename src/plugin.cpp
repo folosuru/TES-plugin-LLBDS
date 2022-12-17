@@ -175,7 +175,7 @@ void PluginInit()
             auto main = tesMainClass::getInstance();
             auto player = main.getPlayerData(origin.getPlayer()->getName());
             if (player){
-                player.value().setLastPosition(origin.getPlayer()->getPosition());
+                player.value().setLastPosition(origin.getPlayer()->getPosition(),origin.getPlayer()->getDimensionId());
                 origin.getPlayer()->teleport(Vec3(0,128,0),0);
             } else {
                 output.error("you not registered");
