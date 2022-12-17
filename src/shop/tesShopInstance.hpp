@@ -10,16 +10,16 @@ public:
     tesShopInstance();
 
     int getPrice() const;
-    tesShopInstance setPrice(int value);
+    tesShopInstance* setPrice(int value);
 
     int getCurrency() const;
-    tesShopInstance setCurrency(int currency);
+    tesShopInstance* setCurrency(int currency);
 
     int getAmount() const;
-    tesShopInstance setAmount(int amount_);
+    tesShopInstance* setAmount(int amount_);
 
     bool getActivate() const;
-    tesShopInstance setActivate(bool value);
+    tesShopInstance* setActivate(bool value);
 
     std::string getChestPos();
     BlockPos getChestBlockPos();
@@ -28,7 +28,7 @@ public:
     std::string getSignPos();
     BlockPos getSignBlockPos();
 
-    tesShopInstance setSignPos(std::string SignPos_);
+    tesShopInstance* setSignPos(std::string SignPos_);
 
 
     std::string getOwner();

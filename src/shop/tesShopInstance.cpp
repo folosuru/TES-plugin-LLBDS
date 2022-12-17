@@ -18,8 +18,9 @@ int tesShopInstance::getPrice() const {
     return price;
 }
 
-tesShopInstance tesShopInstance::setPrice(int value) {
+tesShopInstance* tesShopInstance::setPrice(int value) {
     price = value;
+    return this;
 }
 
 std::string tesShopInstance::getOwner() {
@@ -29,24 +30,27 @@ std::string tesShopInstance::getOwner() {
 int tesShopInstance::getCurrency() const {
     return currency;
 }
-tesShopInstance tesShopInstance::setCurrency(int currency_) {
+tesShopInstance* tesShopInstance::setCurrency(int currency_) {
     currency = currency_;
+    return this;
 }
 
 int tesShopInstance::getAmount() const {
     return amount;
 }
 
-tesShopInstance tesShopInstance::setAmount(int amount_) {
+tesShopInstance* tesShopInstance::setAmount(int amount_) {
     amount = amount_;
+    return this;
 }
 
 bool tesShopInstance::getActivate() const {
     return activate;
 }
 
-tesShopInstance tesShopInstance::setActivate(bool value) {
+tesShopInstance* tesShopInstance::setActivate(bool value) {
     activate = value;
+    return this;
 }
 
 std::string tesShopInstance::getChestPos() {
@@ -57,8 +61,9 @@ std::string tesShopInstance::getSignPos() {
     return sign_pos;
 }
 
-tesShopInstance tesShopInstance::setSignPos(std::string SignPos_) {
+tesShopInstance* tesShopInstance::setSignPos(std::string SignPos_) {
     sign_pos = std::move(SignPos_);
+    return this;
 }
 
 BlockPos tesShopInstance::getChestBlockPos() {
