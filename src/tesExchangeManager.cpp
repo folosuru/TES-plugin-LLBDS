@@ -47,3 +47,7 @@ void tesExchangeManager::supplyUp(int currency,double value){
 void tesExchangeManager::supplyDown(int currency,double value){
     supply[currency] -= value * supply_convert_rate;
 }
+
+double tesExchangeManager::getBase(int currency){
+    return rate_base + (std::pow(0.98 , tesMainClass::getInstance().getBank(currency).getTotal()) * 0.001);
+}

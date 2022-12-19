@@ -72,7 +72,9 @@ public:
     void addCountryBalance(unsigned long long value);
     void removeCountryBalance(unsigned long long value);
     void setCountryBalance(unsigned long long value);
-   const std::string &getCurrencyName() const;
+    const std::string &getCurrencyName() const;
+
+    unsigned int getTotal() const;
 
    nlohmann::json getAllData() const;
 
