@@ -35,6 +35,11 @@ std::optional<tesDominionData> tesMainClass::getDominion(int x, int z) {
     return dominion[x][z];
 }
 
+std::optional<tesDominionData> tesMainClass::getDominionByPos(int x,int z){
+    return getDominion( (x<0) ? (x+dominion_size)/dominion_size : x/dominion_size ,
+     (z<0) ? (z+dominion_size)/dominion_size : z/dominion_size );
+}
+
 std::optional<tesCountryData> tesMainClass::getCountry(int id) {
     if (country_data.size() > id) {
         return country_data[id];
