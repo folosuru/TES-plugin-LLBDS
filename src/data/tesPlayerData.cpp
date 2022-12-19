@@ -78,3 +78,11 @@ Vec3 tesPlayerData::getLastPosition() {
     return Vec3(last_position[0],last_position[1],last_position[2]);
 }
 
+void tesPlayerData::teleportToLastPosition(){
+    Player* player = Global<Level>->getPlayer(player_name);
+    if (getLastDimension() == 0/* plz enter id of the end */){
+        player->teleport(Vec3(0,0,0),/* id of over wold*/);
+    } else {
+        player->teleport(getLastPosition(),getLastDimension);
+    }
+}
