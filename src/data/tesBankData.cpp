@@ -1,6 +1,7 @@
 #include "tesBankData.hpp"
 #include <string>
 #include <utility>
+#include <climits>
 
 using namespace std;
 
@@ -152,6 +153,17 @@ void tesBankData::removeRealBalance(const std::string& name, unsigned long long 
 
 const string &tesBankData::getCurrencyName() const {
     return currencyName;
+}
+
+unsigned int tesBankData::getTotal() const{
+    unsigned int result = 0;
+    for (unsigned long long player_money:money){
+        if (result+ player_money > UINT_MAX) {
+            break;
+        }
+        result = result + player_money;
+    }
+    return result;
 }
 
 nlohmann::json tesBankData::getAllData() const {

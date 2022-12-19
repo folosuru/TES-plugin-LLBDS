@@ -36,6 +36,11 @@ public:
      * if return value of getRate(jpy,usd) is 0.5, you can exchange 100JPY to 50USD.
      */
     double getRate(int from,int to);
+    
+    /**
+     * get base. use sum of bank.
+    */
+    double getBase(int currency);
 private:
     std::vector<double> supply;
     const double rate_base = 1.00001; //rate_base^x+supply

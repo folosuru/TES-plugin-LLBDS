@@ -20,6 +20,7 @@ public:
     std::optional<std::string> getCurrency(int id);
     std::optional<int> getCurrencyID(const std::string& name);
     std::optional<tesDominionData> getDominion(int x,int z);
+    std::optional<tesDominionData> getDominionByPos(int x,int z);
     std::optional<tesBankData> getBank(int id);
     void saveAllPlayerData();
 
@@ -29,6 +30,7 @@ private:
     std::vector<tesCountryData> country_data;
     std::unordered_map<int,std::string> currency_id_to_name;
     std::unordered_map<std::string ,int> currency_name_to_id;
+    const int dominion_size = 100; 
     tesMainClass();
     std::vector<tesBankData> bank_data;
     std::unordered_map<int,std::unordered_map<int,tesDominionData>> dominion;

@@ -4,6 +4,9 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#include <llapi/GlobalServiceAPI.h>
+#include <llapi/mc/Level.hpp>
+#include <llapi/mc/Player.hpp>
 #include <Nlohmann/json.hpp>
 #include "llapi/mc/Vec3.hpp"
 
@@ -42,10 +45,12 @@ public:
      * @return bool
      */
     bool hasMoney(int currency, int value);
-
+    
+    // function of teleport and hub command
     void setLastPosition(Vec3 pos,int dim);
     Vec3 getLastPosition();
     int getLastDimension();
+    void teleportToLastPosition();
 
     nlohmann::json getAllData();
 
