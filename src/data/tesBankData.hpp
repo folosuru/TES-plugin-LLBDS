@@ -76,7 +76,8 @@ public:
 
     unsigned int getTotal() const;
 
-   nlohmann::json getAllData() const;
+    nlohmann::json getAllData() const;
+    tesBankData(const nlohmann::json& data);
 
 
 private:

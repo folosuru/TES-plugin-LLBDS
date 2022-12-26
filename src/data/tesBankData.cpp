@@ -157,11 +157,11 @@ const string &tesBankData::getCurrencyName() const {
 
 unsigned int tesBankData::getTotal() const{
     unsigned int result = 0;
-    for (unsigned long long player_money:money){
-        if (result+ player_money > UINT_MAX) {
+    for (const auto& player_money:money){
+        if (result+ player_money.second > UINT_MAX) {
             break;
         }
-        result = result + player_money;
+        result = result + player_money.second;
     }
     return result;
 }
@@ -170,7 +170,14 @@ nlohmann::json tesBankData::getAllData() const {
     nlohmann::json data;
     data["interest_rate"] = getInterestRate();
     data["country_balance"] = getCountryBalance();
+    data["balance"] = money;
     return data;
+}
+
+tesBankData::tesBankData(const nlohmann::json& data) {
+    InterestRate = data["interest_rate"].get<int>();
+    county_Balance = data["country_balance"].get<unsigned long long >();
+    money = data["balance"].get<std::unordered_map<std::string ,unsigned long long>>();
 }
 
 
