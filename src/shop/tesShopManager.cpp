@@ -103,10 +103,10 @@ void tesShopManager::blockClickByAxeEvent(const Event::PlayerStartDestroyBlockEv
                             }
 
                             new_shop.setPrice(result["price"]->getInt())
-                                    .setPrice(
+                                    ->setPrice(
                                             tesMainClass::getInstance().getCurrencyID(result["currency"]->getString()).value())
-                                    .setPrice(result["amount"]->getInt())
-                                    .setActivate(true);
+                                    ->setPrice(result["amount"]->getInt())
+                                    ->setActivate(true);
                             tesShopManager::getInstance().registerShop(new_shop);
                         }
                 );
