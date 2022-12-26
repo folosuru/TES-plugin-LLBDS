@@ -50,14 +50,14 @@ public:
     void setLastPosition(Vec3 pos,int dim);
     Vec3 getLastPosition();
     int getLastDimension();
-    void teleportToLastPosition();
+    void teleportToLastPosition(const std::string& player_name);
 
     nlohmann::json getAllData();
 
 
 private:
     int country;
-    std::vector<int> money;
+    std::unordered_map<int,int> money;
     std::array<int,4> last_position;
 };
 

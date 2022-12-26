@@ -18,7 +18,7 @@ void tesPlayerData::setCountry(int country_id) {
     country = country_id;
 }
 int tesPlayerData::getMoney(int currency) {
-    if (money.size() > currency){
+    if (money.find(currency) != money.end()){
         return money[currency];
     } else {
         money[currency] = 0;
@@ -66,7 +66,6 @@ nlohmann::json tesPlayerData::getAllData() {
     nlohmann::json data;
     data["country"] = getCountry();
     data["money"] = money;
-
     return data;
 }
 
@@ -78,11 +77,11 @@ Vec3 tesPlayerData::getLastPosition() {
     return Vec3(last_position[0],last_position[1],last_position[2]);
 }
 
-void tesPlayerData::teleportToLastPosition(){
+void tesPlayerData::teleportToLastPosition(const std::string& player_name){
     Player* player = Global<Level>->getPlayer(player_name);
     if (getLastDimension() == 0/* plz enter id of the end */){
-        player->teleport(Vec3(0,0,0),/* id of over wold*/);
+        player->teleport(Vec3(0,0,0),/* id of over world*/0);
     } else {
-        player->teleport(getLastPosition(),getLastDimension);
+        player->teleport(getLastPosition(),getLastDimension());
     }
 }
