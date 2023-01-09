@@ -49,5 +49,5 @@ void tesExchangeManager::supplyDown(int currency,double value){
 }
 
 double tesExchangeManager::getBase(int currency){
-    return rate_base + (std::pow(0.98 , tesMainClass::getInstance().getBank(currency).getTotal()) * 0.001);
+    return rate_base + (std::pow(0.98 , tesMainClass::getInstance().getBank(currency)->getTotal()) * 0.001);
 }

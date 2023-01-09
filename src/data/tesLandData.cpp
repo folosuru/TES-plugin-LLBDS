@@ -44,3 +44,7 @@ std::vector<std::string> tesLandData::getAllSharePlayer() {
 std::string tesLandData::getOwner() {
     return owner;
 }
+
+void tesLandData::addSharePlayer(const std::string &player) {
+    share_player.push_back(player);
+}

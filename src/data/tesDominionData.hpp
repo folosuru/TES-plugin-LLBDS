@@ -11,6 +11,8 @@ public:
     void addLand(int x1,int z1, int x2 ,int z2,std::string player);
     int getCountryID() const;
     nlohmann::json getAllLand();
+    tesDominionData(nlohmann::json data);
+    tesDominionData() = default;
 
 private:
     int country_id;

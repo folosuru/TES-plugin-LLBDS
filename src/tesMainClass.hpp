@@ -7,7 +7,6 @@
 #include "data/tesPlayerData.hpp"
 #include "data/tesCountryData.hpp"
 #include "data/tesBankData.hpp"
-#include "data/tesCurrencyData.hpp"
 #include "shop/tesShopManager.hpp"
 
 class tesShopManager;

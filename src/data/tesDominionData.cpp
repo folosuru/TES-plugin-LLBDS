@@ -28,12 +28,21 @@ int tesDominionData::getCountryID() const {
 
 nlohmann::json tesDominionData::getAllLand() {
     nlohmann::json data;
+    data["country"] = country_id;
     int i =0;
     for (auto& land_:land){
-        data[std::to_string(i)]["pos"] = land_.getAllPos();
-        data[std::to_string(i)]["share"] = land_.getAllSharePlayer();
-        data[std::to_string(i)]["owner"] = land_.getOwner();
+        data["land"][std::to_string(i)]["pos"] = land_.getAllPos();
+        data["land"][std::to_string(i)]["share"] = land_.getAllSharePlayer();
+        data["land"][std::to_string(i)]["owner"] = land_.getOwner();
         i++;
     }
     return data;
+}
+
+tesDominionData::tesDominionData(nlohmann::json data) {
+    country_id = data["country"];
+    for (auto i : data["land"]){
+        std::array<int,4> pos = data["pos"].get<std::array<int,4>>();
+        land.emplace_back(pos[0],pos[1],pos[2],pos[3],i["owner"].get<std::string>());
+    }
 }

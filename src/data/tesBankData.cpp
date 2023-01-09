@@ -33,7 +33,7 @@ void tesBankData::setInterestRate(int value){
     InterestRate = value;
 }
 
-/** Country Blance **/
+/** Country Balance **/
 
 
 

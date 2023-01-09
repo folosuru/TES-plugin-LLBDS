@@ -66,6 +66,7 @@ nlohmann::json tesPlayerData::getAllData() {
     nlohmann::json data;
     data["country"] = getCountry();
     data["money"] = money;
+    data["last_position"] = last_position;
     return data;
 }
 
@@ -84,4 +85,10 @@ void tesPlayerData::teleportToLastPosition(const std::string& player_name){
     } else {
         player->teleport(getLastPosition(),getLastDimension());
     }
+}
+
+tesPlayerData::tesPlayerData(nlohmann::json data) {
+    money = data["money"].get<std::unordered_map<int,int>>();
+    country = data["country"].get<int>();
+    last_position = data["last_position"].get<std::array<int,4>>();
 }

@@ -53,12 +53,13 @@ public:
     void teleportToLastPosition(const std::string& player_name);
 
     nlohmann::json getAllData();
+    tesPlayerData(nlohmann::json data);
 
 
 private:
     int country;
     std::unordered_map<int,int> money;
-    std::array<int,4> last_position;
+    std::array<int,4> last_position{};
 };
 
 

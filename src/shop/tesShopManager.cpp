@@ -66,7 +66,7 @@ void tesShopManager::blockClickByAxeEvent(const Event::PlayerStartDestroyBlockEv
         Form::CustomForm form("SHOP setup");
 
         std::optional<tesCountryData> country = mainClass.getCountry(
-                tesMainClass::getInstance().getDominion((int) block.getPosition().x,
+                tesMainClass::getInstance().getDominionByPos((int) block.getPosition().x,
                                                         (int) block.getPosition().z)->getCountryID());
         if (country) {
             std::vector<int> currency_list = country.value().aspect_currency_list;
@@ -103,9 +103,9 @@ void tesShopManager::blockClickByAxeEvent(const Event::PlayerStartDestroyBlockEv
                             }
 
                             new_shop.setPrice(result["price"]->getInt())
-                                    ->setPrice(
+                                    ->setCurrency(
                                             tesMainClass::getInstance().getCurrencyID(result["currency"]->getString()).value())
-                                    ->setPrice(result["amount"]->getInt())
+                                    ->setAmount(result["amount"]->getInt())
                                     ->setActivate(true);
                             tesShopManager::getInstance().registerShop(new_shop);
                         }

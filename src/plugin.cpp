@@ -105,7 +105,7 @@ void PluginInit()
 
         //----land and dominion----//
         tesMainClass main = tesMainClass::getInstance();
-        auto dominion = main.getDominion(block.getPosition().x,block.getPosition().z);
+        auto dominion = main.getDominionByPos(block.getPosition().x,block.getPosition().z);
         if (!dominion){
             return true;    //そもそも国の領土じゃないので管理する必要は無
         }
@@ -136,7 +136,7 @@ void PluginInit()
         }
 //----land and dominion----//
         tesMainClass main = tesMainClass::getInstance();
-        auto dominion = main.getDominion(block.getPosition().x,block.getPosition().z);
+        auto dominion = main.getDominionByPos(block.getPosition().x,block.getPosition().z);
         if (!dominion){
             return true;    //そもそも国の領土じゃないので管理する必要は無
         }
@@ -176,7 +176,7 @@ void PluginInit()
             auto player = main.getPlayerData(origin.getPlayer()->getName());
             if (player){
                 player.value().setLastPosition(origin.getPlayer()->getPosition(),origin.getPlayer()->getDimensionId());
-                origin.getPlayer()->teleport(Vec3(0,128,0),0);
+                origin.getPlayer()->teleport(Vec3(0,128,0),2);
             } else {
                 output.error("you not registered");
             }
